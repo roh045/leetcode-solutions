@@ -1,0 +1,26 @@
+class Answer:
+    def recoverTree(self, root):
+        self.first = None
+        self.second = None
+        self.prev = None
+
+        def inorder(node):
+            if not node:
+                return
+
+            inorder(node.left)
+
+            # detect violation
+            if self.prev and node.val < self.prev.val:
+                if not self.first:
+                    self.first = self.prev
+                self.second = node
+
+            self.prev = node
+
+            inorder(node.right)
+
+        inorder(root)
+
+        # swap values
+        self.first.val, self.second.val = self.second.val, self.first.val
